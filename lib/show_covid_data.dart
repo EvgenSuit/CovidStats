@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:covidstats/detect.dart';
 import 'package:covidstats/models/model.dart';
 import 'package:flutter/gestures.dart';
@@ -35,11 +33,12 @@ class _ShowCovidDataState extends State<ShowCovidData> {
   void initState() {
     super.initState();
     if (!Model.mainPageOpened) {
-      Future.delayed(
-          Duration(milliseconds: plotAnimationDelay.toInt()),
-          () => setState(() {
-                Model.mainPageOpened = true;
-              }));
+      Future.delayed(Duration(milliseconds: plotAnimationDelay.toInt()), () {
+        if (Model.mainPageOpened) return;
+        setState(() {
+          Model.mainPageOpened = true;
+        });
+      });
     }
     for (int i = 1; i < _covidData.length; i++) {
       String day = _covidData[i][1].split('-')[2];
@@ -48,6 +47,11 @@ class _ShowCovidDataState extends State<ShowCovidData> {
       newCasesPlot.add(DataMapper(day, newCases));
       totalCasesPlot.add(DataMapper(day, totalCases));
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -67,7 +71,7 @@ class _ShowCovidDataState extends State<ShowCovidData> {
               SizedBox(
                 height: screenHeight / 20,
               ),
-              backButton(),
+              backButton(context),
               plots(screenHeight)
             ],
           ),
@@ -76,7 +80,7 @@ class _ShowCovidDataState extends State<ShowCovidData> {
     );
   }
 
-  Widget backButton() {
+  Widget backButton(context) {
     return ElevatedButton(
       style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
@@ -88,7 +92,8 @@ class _ShowCovidDataState extends State<ShowCovidData> {
         setState(() {
           Model.mainPageOpened = true;
         });
-        Navigator.pop(context);
+
+        Navigator.of(context).pop();
       },
       child: const Icon(Icons.arrow_back_outlined),
     );

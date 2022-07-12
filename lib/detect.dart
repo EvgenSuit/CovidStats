@@ -23,13 +23,13 @@ class _DetectState extends State<Detect> {
   Interpreter get _interpreter => widget.interpreter!;
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
-  String remoteUrl = 'https://covstatistics.herokuapp.com/';
   bool pressed = false;
   List data = [];
   int imgSize = 224;
   List<CameraDescription> get cameras => widget.cameras;
   bool cameraSetupChanged = false;
   double buttonIconsSize = 35;
+  String snackBarMessage = 'Make sure to wear your mask';
 
   void initCameraController(CameraDescription camera) {
     setState(() {
@@ -47,9 +47,16 @@ class _DetectState extends State<Detect> {
     String filePath = Model.covidDataPath;
     if (File(filePath).existsSync()) {
       final file = File(filePath);
-      setState(() {
-        data = json.decode(file.readAsStringSync());
-      });
+      try {
+        setState(() {
+          data = json.decode(file.readAsStringSync());
+        });
+      } catch (e) {
+        print(e);
+        setState(() {
+          snackBarMessage = 'Check your internet connection';
+        });
+      }
     }
   }
 
@@ -178,8 +185,8 @@ class _DetectState extends State<Detect> {
     double preds = output[0][0];
 
     if (preds > 0.45) {
-      const snackBar = SnackBar(
-        content: Text('Make sure to wear your mask'),
+      final snackBar = SnackBar(
+        content: Text(snackBarMessage),
         duration: Duration(milliseconds: 2000),
         behavior: SnackBarBehavior.floating,
       );
@@ -189,14 +196,14 @@ class _DetectState extends State<Detect> {
     setState(() {
       pressed = false;
     });
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ShowCovidData(
-            preds: preds,
-            covidData: data,
-          ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ShowCovidData(
+          preds: preds,
+          covidData: data,
         ),
-        (route) => false);
+      ),
+    );
   }
 }

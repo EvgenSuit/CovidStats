@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:covidstats/detect.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 import 'models/model.dart';
@@ -26,9 +23,7 @@ class _LoadPageState extends State<LoadPage> {
   bool dataExists = false;
 
   Future<void> downloadData() async {
-    String localUrl = 'http://10.0.3.2:8000';
-    String remoteUrl = 'https://covstatistics.herokuapp.com/';
-    var uri = Uri.parse(remoteUrl);
+    var uri = Uri.parse(Model.remoteUrl);
     var request = MultipartRequest('GET', uri);
     setState(() {
       messageToPrint = 'Fetching the data';
@@ -38,15 +33,14 @@ class _LoadPageState extends State<LoadPage> {
     setState(() {
       messageToPrint = 'Writing the data';
     });
-    String dir = Model.covidDataPath.split('/')[0];
-    writeDataToFile(data, dir);
+    writeDataToFile(data, Model.covidDataPath);
     setState(() {
       messageToPrint = 'Data written';
     });
   }
 
-  void writeDataToFile(String data, String directory) {
-    final file = File('$directory/covid_data.txt');
+  void writeDataToFile(String data, String path) {
+    final file = File(path);
     file.writeAsStringSync(data);
     setState(() {
       dataReady = true;
