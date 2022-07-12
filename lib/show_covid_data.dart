@@ -49,12 +49,6 @@ class _ShowCovidDataState extends State<ShowCovidData> {
       newCasesPlot.add(DataMapper(day, newCases));
       totalCasesPlot.add(DataMapper(day, totalCases));
     }
-    if (_preds <= 0.5) {
-      setState(() {
-        showNotification = true;
-        notificationToShow = 'Fuck sure to wear your mask';
-      });
-    }
   }
 
   @override
