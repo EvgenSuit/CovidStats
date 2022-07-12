@@ -29,7 +29,6 @@ class _ShowCovidDataState extends State<ShowCovidData> {
   String notificationToShow = '';
   bool showNotification = false;
   List get _covidData => widget.covidData!;
-  double get _preds => widget.preds!;
   double plotAnimationDelay = 3000;
 
   @override
@@ -68,42 +67,48 @@ class _ShowCovidDataState extends State<ShowCovidData> {
               SizedBox(
                 height: screenHeight / 20,
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
-                    fixedSize: MaterialStateProperty.all(const Size(70, 45)),
-                    backgroundColor: MaterialStateProperty.all(Colors.white24)),
-                onPressed: () {
-                  setState(() {
-                    Model.mainPageOpened = true;
-                  });
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back_outlined),
-              ),
-              Expanded(
-                child: ListView(
-                  clipBehavior: Clip.antiAlias,
-                  children: [
-                    SizedBox(
-                        height: screenHeight / 1.8,
-                        child: plotData(
-                            newCasesPlot, 'New Cases (thousands)', true)),
-                    SizedBox(
-                      height: screenHeight / 20,
-                    ),
-                    SizedBox(
-                        height: screenHeight / 1.8,
-                        child: plotData(
-                            totalCasesPlot, 'Total Cases (millions)', false))
-                  ],
-                ),
-              ),
+              backButton(),
+              plots(screenHeight)
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget backButton() {
+    return ElevatedButton(
+      style: ButtonStyle(
+          elevation: MaterialStateProperty.all(0),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+          fixedSize: MaterialStateProperty.all(const Size(70, 45)),
+          backgroundColor: MaterialStateProperty.all(Colors.white24)),
+      onPressed: () {
+        setState(() {
+          Model.mainPageOpened = true;
+        });
+        Navigator.pop(context);
+      },
+      child: const Icon(Icons.arrow_back_outlined),
+    );
+  }
+
+  Widget plots(screenHeight) {
+    return Expanded(
+      child: ListView(
+        clipBehavior: Clip.antiAlias,
+        children: [
+          SizedBox(
+              height: screenHeight / 1.8,
+              child: plotData(newCasesPlot, 'New Cases (thousands)', true)),
+          SizedBox(
+            height: screenHeight / 20,
+          ),
+          SizedBox(
+              height: screenHeight / 1.8,
+              child: plotData(totalCasesPlot, 'Total Cases (millions)', false))
+        ],
       ),
     );
   }
