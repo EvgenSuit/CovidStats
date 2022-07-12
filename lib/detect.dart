@@ -23,7 +23,6 @@ class _DetectState extends State<Detect> {
   Interpreter get _interpreter => widget.interpreter!;
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
-  String localUrl = 'http://10.0.3.2:8000/';
   String remoteUrl = 'https://covstatistics.herokuapp.com/';
   bool pressed = false;
   List data = [];
