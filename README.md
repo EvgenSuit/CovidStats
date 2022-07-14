@@ -1,16 +1,5 @@
 # covidstats
 
-A new Flutter project.
+This is the source code of the Flutter app that allows anyone with Android device to detect if a person is wearing a mask and get the most up-to-data covid data in a pretty representation.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Optimization updates to come.
