@@ -19,7 +19,9 @@ def get_covid_data(request):
 
     rows_up_to_date = []
     last_sp = df.iloc[-1][1].split('-')
-    for i, row in df.iterrows():
+    rows = df.iterrows()
+    del df
+    for i, row in rows:
         sp = row[1].split('-')
         span_of_month = int(sp[1]) >= int(last_sp[1]) - 1
         span_of_month_in_days = int(sp[2]) >= int(last_sp[2]) or (
