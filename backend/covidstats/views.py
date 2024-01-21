@@ -13,7 +13,8 @@ target_year = '2023'
 
 @api_view(['GET'])
 def get_covid_data(request):
-    # download_data()
+    download_data()
+
     return Response("HELLO")
 
 
