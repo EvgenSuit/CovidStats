@@ -14,25 +14,7 @@ target_year = '2023'
 @api_view(['GET'])
 def get_covid_data(request):
     # download_data()
-    df = pd.read_csv(data_dir)[columns]
-    df.dropna(inplace=True)
-
-    rows_up_to_date = []
-    last_sp = df.iloc[-1][1].split('-')
-    rows = df.iterrows()
-    del df
-    for i, row in rows:
-        sp = row[1].split('-')
-        span_of_month = int(sp[1]) >= int(last_sp[1]) - 1
-        span_of_month_in_days = int(sp[2]) >= int(last_sp[2]) or (
-            (int(last_sp[2]) >= int(sp[2])) and int(sp[1]) == int(last_sp[1]))
-        if sp[0] == target_year and span_of_month and span_of_month_in_days:
-            rows_up_to_date.append(row)
-    df_up_to_date = pd.DataFrame(columns=columns, data=rows_up_to_date)
-
-    df_up_to_date = df_up_to_date[df_up_to_date['location'] == location]
-
-    return Response(df_up_to_date.to_numpy())
+    return Response("HELLO")
 
 
 def download_data():
