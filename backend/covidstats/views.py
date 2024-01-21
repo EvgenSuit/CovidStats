@@ -14,6 +14,8 @@ target_year = '2023'
 @api_view(['GET'])
 def get_covid_data(request):
     download_data()
+    df = pd.read_csv(data_dir)[columns]
+    df.dropna(inplace=True)
 
     return Response("HELLO")
 
