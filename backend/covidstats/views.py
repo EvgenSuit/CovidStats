@@ -13,7 +13,7 @@ target_year = '2023'
 
 @api_view(['GET'])
 def get_covid_data(request):
-    download_data()
+    # download_data()
     df = pd.read_csv(data_dir)[columns]
     df.dropna(inplace=True)
 
@@ -39,3 +39,4 @@ def download_data():
     resp = requests.get(covid_data_link)
     with open(data_dir, '+wb') as f:
         f.write(resp.content)
+    del resp
